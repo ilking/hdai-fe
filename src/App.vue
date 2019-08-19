@@ -1,29 +1,51 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <b-navbar toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand href="#">Health Data Analytics Institute</b-navbar-brand>
+    </b-navbar>
+
+    <b-container class="layout-grid">
+      <b-row>
+        <b-col cols="4">
+          <PatientList />
+        </b-col>
+        <b-col>
+          <PatientView />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component';
+import PatientList from '@/components/PatientList.vue';
+import PatientView from '@/components/PatientView.vue';
+import { PatientsState } from '@/patient/state';
+import { Action } from 'vuex-class';
+const namespace: string = 'patient';
+
+@Component({
+  components: {
+    PatientList,
+    PatientView,
+  },
+})
+export default class App extends Vue {
+  @Action('fetchData', { namespace }) fetchData: any;
+  created() {
+    this.fetchData();
+  }
+}
+</script>
+
 <style lang="scss">
+@import './styles/bootstrap.scss';
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
