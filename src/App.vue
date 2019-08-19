@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" variant="info">
+    <b-navbar toggleable="lg" type="dark" variant="primary">
       <b-navbar-brand href="#">Health Data Analytics Institute</b-navbar-brand>
     </b-navbar>
 

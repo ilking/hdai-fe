@@ -47,8 +47,12 @@
       <b-list-group>
         <b-list-group-item v-for="(medication, index) in selectedPatient.Medications" :key="index">
           <span class="medicationTitle">{{medication.MedicationName}} ({{medication.Dose}})</span>
-          <span class="medicationStartDate">{{medication.StartDate}}</span>
-          <span class="medicationEndDate" v-if="medication.StopDate">-{{medication.StopDate}}</span>
+          <br />
+          <span class="medicationStartDate">{{formatDate(medication.StartDate)}}</span>
+          <span
+            class="medicationEndDate"
+            v-if="medication.StopDate"
+          >&nbsp;- {{formatDate(medication.StopDate)}}</span>
         </b-list-group-item>
       </b-list-group>
     </div>
@@ -62,6 +66,7 @@ import Component from 'vue-class-component';
 import { PatientsState } from '@/patient/state';
 import { Patient, Medication } from '@/types/patient';
 import { UpdatePatientRequest } from '@/patient/actions/actions';
+import moment from 'moment';
 
 const namespace: string = 'patient';
 
@@ -79,6 +84,10 @@ export default class PatientView extends Vue {
   @Action('activateEditMode', { namespace }) openEditMode!: any;
   @Action('cancelEditMode', { namespace }) cancelEditMode!: any;
   @Action('updatePatient', { namespace }) updatePatient!: any;
+
+  formatDate(date: Date) {
+    return moment(date).format('YYYY-MMM-DD');
+  }
 
   onReset() {
     this.form = {
